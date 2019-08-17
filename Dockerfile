@@ -13,3 +13,4 @@ RUN \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
   apt-get install sbt && \
+  sbt sbtVersion
