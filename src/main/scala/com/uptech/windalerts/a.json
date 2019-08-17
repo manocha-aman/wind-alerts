@@ -1,120 +1,52 @@
 {
   "location": {
-    "id": 4988,
-    "name": "Bondi Beach",
-    "region": "Sydney",
+    "id": 3216,
+    "name": "Lilyvale",
+    "region": "Illawarra",
     "state": "NSW",
-    "postcode": "2026",
+    "postcode": "2508",
     "timeZone": "Australia\/Sydney",
-    "lat": -33.891,
-    "lng": 151.275,
-    "typeId": 2
+    "lat": -34.196,
+    "lng": 151.012,
+    "typeId": 12
   },
-  "observational": {
-    "observations": {
-      "temperature": {
-        "temperature": 15,
-        "apparentTemperature": null,
-        "trend": -1
+  "forecasts": {
+    "tides": {
+      "days": [
+        {
+          "dateTime": "2019-08-15 00:00:00",
+          "entries": [
+            {
+              "dateTime": "2019-08-15 02:21:00",
+              "height": 0.28,
+              "type": "low"
+            },
+            {
+              "dateTime": "2019-08-15 08:15:00",
+              "height": 1.21,
+              "type": "high"
+            },
+            {
+              "dateTime": "2019-08-15 13:47:00",
+              "height": 0.41,
+              "type": "low"
+            },
+            {
+              "dateTime": "2019-08-15 20:20:00",
+              "height": 1.63,
+              "type": "high"
+            }
+          ]
+        }
+      ],
+      "units": {
+        "height": "m"
       },
-      "delta-t": {
-        "temperature": 3.6,
-        "trend": -1
-      },
-      "cloud": {
-        "oktas": 0,
-        "trend": 0
-      },
-      "humidity": {
-        "percentage": 61,
-        "trend": 1
-      },
-      "dewPoint": {
-        "temperature": 6.9,
-        "trend": 1
-      },
-      "pressure": {
-        "pressure": 1026.4,
-        "trend": 0
-      },
-      "wind": {
-        "speed": 9.3,
-        "gustSpeed": 11.1,
-        "trend": -1,
-        "direction": 358,
-        "directionText": "N"
-      },
-      "rainfall": {
-        "lastHourAmount": 0,
-        "todayAmount": 0,
-        "since9AMAmount": 0
+      "issueDateTime": "2019-06-09 10:21:36",
+      "carousel": {
+        "size": 1461,
+        "start": 957
       }
-    },
-    "stations": {
-      "temperature": {
-        "id": 733,
-        "name": "Sydney Harbour (off Georges Head, Mosman)",
-        "lat": -33.84,
-        "lng": 151.26,
-        "distance": 5.6
-      },
-      "delta-t": {
-        "id": 349,
-        "name": "Sydney (Observatory Hill)",
-        "lat": -33.86,
-        "lng": 151.21,
-        "distance": 7.3
-      },
-      "cloud": {
-        "id": 345,
-        "name": "Sydney Airport",
-        "lat": -33.94,
-        "lng": 151.17,
-        "distance": 11.3
-      },
-      "humidity": {
-        "id": 349,
-        "name": "Sydney (Observatory Hill)",
-        "lat": -33.86,
-        "lng": 151.21,
-        "distance": 7.3
-      },
-      "dewPoint": {
-        "id": 349,
-        "name": "Sydney (Observatory Hill)",
-        "lat": -33.86,
-        "lng": 151.21,
-        "distance": 7.3
-      },
-      "pressure": {
-        "id": 349,
-        "name": "Sydney (Observatory Hill)",
-        "lat": -33.86,
-        "lng": 151.21,
-        "distance": 7.3
-      },
-      "wind": {
-        "id": 733,
-        "name": "Sydney Harbour (off Georges Head, Mosman)",
-        "lat": -33.84,
-        "lng": 151.26,
-        "distance": 5.6
-      },
-      "rainfall": {
-        "id": 349,
-        "name": "Sydney (Observatory Hill)",
-        "lat": -33.86,
-        "lng": 151.21,
-        "distance": 7.3
-      }
-    },
-    "issueDateTime": "2019-08-14 20:20:00",
-    "units": {
-      "temperature": "c",
-      "amount": "mm",
-      "speed": "km\/h",
-      "distance": "km",
-      "pressure": "hPa"
     }
   }
 }

@@ -46,3 +46,5 @@ scalacOptions ++= Seq(
   "-Xfatal-warnings",
 )
 
+
+mainClass in Compile := Some("com.uptech.windalerts.Main")
