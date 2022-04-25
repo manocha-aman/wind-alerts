@@ -13,7 +13,7 @@
         <scala.compat.version>2.13</scala.compat.version>
         <spec2.version>4.2.0</spec2.version>
         <envProjectId>wind-alerts-staging</envProjectId>
-        <http4s.version>1.0-232-85dadc2</http4s.version>
+        <http4s.version>1.0-234-d1a2b53</http4s.version>
         <cats.version>2.7.0</cats.version>
         <circe.version>0.14.1</circe.version>
         <circeGeneric.version>0.14.1</circeGeneric.version>
