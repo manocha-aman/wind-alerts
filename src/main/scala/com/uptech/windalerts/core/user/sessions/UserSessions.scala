@@ -93,4 +93,49 @@ object UserSessions {
     val REFRESH_TOKEN_EXPIRY = 14L * 24L * 60L * 60L * 1000L
   }
 
+
+
+
+  def reset[F[_] : Sync](id: String, newDeviceToken: String)(implicit FR: Raise[F, UserNotFoundError],userSessionsRepository: UserSessionRepository[F]): F[Tokens] = {
+    for {
+      _ <- userSessionsRepository.deleteForUserId(id)
+      tokens <- generateNewTokens(id, newDeviceToken)
+    } yield tokens
+  }
+
+  def generateNewTokens[F[_] : Sync](id: String, deviceToken: String)(implicit userSessionsRepository: UserSessionRepository[F]): F[Tokens] = {
+    val accessToken = createAccessToken(UserId(id))("")
+    for {
+      newRefreshToken <- userSessionsRepository.create(utils.generateRandomString(40), System.currentTimeMillis() + REFRESH_TOKEN_EXPIRY, id, deviceToken)
+      tokens = Tokens(accessToken.accessToken, newRefreshToken, accessToken.expiredAt)
+    } yield tokens
+  }
+
+
+  def createAccessToken[F[_] : Sync](userId: UserId)(jwtKey:String): AccessTokenWithExpiry = AccessTokenWithExpiry(JwtSecretKey(jwtKey), userId)
+
+  def refresh[F[_] : Sync](accessTokenRequest: AccessTokenRequest)(implicit FR: Raise[F, UserNotFoundError], RTNF: Raise[F, RefreshTokenNotFoundError], RTE: Raise[F, RefreshTokenExpiredError], userSessionsRepository: UserSessionRepository[F]): F[Tokens] = {
+    for {
+      oldRefreshToken <- userSessionsRepository.getByRefreshToken(accessTokenRequest.refreshToken)
+      _ <- checkNotExpired(oldRefreshToken)
+      _ <- userSessionsRepository.deleteForUserId(oldRefreshToken.userId)
+      tokens <- generateNewTokens(oldRefreshToken.userId, oldRefreshToken.deviceToken)
+    } yield tokens
+  }
+
+  private def checkNotExpired[F[_] : Sync](oldRefreshToken: UserSession)(implicit RTNF: Raise[F, RefreshTokenExpiredError], A: Applicative[F],  userSessionsRepository: UserSessionRepository[F]) =
+    if (!oldRefreshToken.isExpired()) {
+      A.pure(())
+    } else {
+      RTNF.raise(RefreshTokenExpiredError())
+    }
+
+  def updateDeviceToken[F[_] : Sync](id: String, deviceToken: String)(implicit FR: Raise[F, UserNotFoundError], userSessionsRepository: UserSessionRepository[F]): F[Unit] = {
+    userSessionsRepository.updateDeviceToken(id, deviceToken)
+  }
+
+
+  def deleteForUserId[F[_] : Sync](userId: String)(implicit userSessionsRepository: UserSessionRepository[F]): F[Unit] =
+    userSessionsRepository.deleteForUserId(userId)
+
 }
