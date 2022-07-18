@@ -7,7 +7,7 @@ import cats.mtl.Raise
 import com.softwaremill.sttp._
 import com.uptech.windalerts.config.swellAdjustments.Adjustments
 import com.uptech.windalerts.core.beaches.domain.BeachId
-import com.uptech.windalerts.core.beaches.{SwellsService, domain}
+import com.uptech.windalerts.core.beaches.{SwellStatusProvider, domain}
 import com.uptech.windalerts.core.{BeachNotFoundError, UnknownError}
 import com.uptech.windalerts.infrastructure.beaches.Swells.Swell
 import com.uptech.windalerts.infrastructure.resilience
@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 import scala.concurrent.Future
 
-class WWBackedSwellsService[F[_] : Sync](apiKey: String, adjustments: Adjustments)(implicit backend: SttpBackend[Id, Nothing], F: Async[F], C: ContextShift[F]) extends SwellsService[F] {
+class WWBackedSwellStatusProvider[F[_] : Sync](apiKey: String, adjustments: Adjustments)(implicit backend: SttpBackend[Id, Nothing], F: Async[F], C: ContextShift[F]) extends SwellStatusProvider[F] {
 
   override def get(beachId: BeachId)(implicit FR: Raise[F, BeachNotFoundError]): F[domain.Swell] = {
     val future: Future[Id[Response[String]]] =

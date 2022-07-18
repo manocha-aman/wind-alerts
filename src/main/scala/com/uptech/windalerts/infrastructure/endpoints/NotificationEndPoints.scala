@@ -1,12 +1,15 @@
 package com.uptech.windalerts.infrastructure.endpoints
 
+import cats.Parallel
 import cats.effect.Effect
+import cats.mtl.Handle
+import com.uptech.windalerts.core.{BeachesInfrastructure, Infrastructure, NotificationInfrastructure}
 import com.uptech.windalerts.core.notifications.NotificationsService
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.implicits._
 
-class NotificationEndpoints[F[_] : Effect](notifications: NotificationsService[F]) extends Http4sDsl[F] {
+class NotificationEndpoints[F[_] : Effect](implicit  notificationInfrastructure:NotificationInfrastructure[F], FR: Handle[F, Throwable], P:Parallel[F]) extends Http4sDsl[F] {
   def allRoutes() =
     routes().orNotFound
 
@@ -15,14 +18,14 @@ class NotificationEndpoints[F[_] : Effect](notifications: NotificationsService[F
 
     HttpRoutes.of[F] {
       case GET -> Root / "notify" => {
-        notifications.sendNotification().flatMap {
+        NotificationsService.sendNotification().flatMap {
           _ => Ok()
         }
       }
 
 
       case GET -> Root => {
-        notifications.sendNotification().flatMap {
+        NotificationsService.sendNotification().flatMap {
           _ => Ok()
         }
       }

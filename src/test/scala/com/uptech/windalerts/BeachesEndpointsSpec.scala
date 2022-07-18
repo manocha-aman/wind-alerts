@@ -36,18 +36,18 @@ class BeachesEndpointsSpec extends AnyFunSuite
   }
 
   private def beachEndPoints(w: Wind, t: TideHeight, s: Swell) = {
-    new com.uptech.windalerts.infrastructure.endpoints.BeachesEndpoints[IO](new BeachService[IO](new FixedWindService(w), new FixedTidesService(t), new FixedSwellService(s))).allRoutes
+    new com.uptech.windalerts.infrastructure.endpoints.BeachesEndpoints[IO](new Beaches[IO](new FixedWindService(w), new FixedTidesStatusProvider(t), new FixedSwellService(s))).allRoutes
   }
 
-  class FixedWindService(wind: Wind) extends WindsService[IO] {
+  class FixedWindService(wind: Wind) extends WindStatusProvider[IO] {
     override def get(beachId: domain.BeachId)(implicit FR: Raise[IO, BeachNotFoundError]) = IO.pure(wind)
   }
 
-  class FixedTidesService(tideHeight: TideHeight) extends TidesService[IO] {
+  class FixedTidesStatusProvider(tideHeight: TideHeight) extends TidesStatusProvider[IO] {
     override def get(beachId: domain.BeachId)(implicit FR: Raise[IO, BeachNotFoundError]) = IO.pure(tideHeight)
   }
 
-  class FixedSwellService(swell: Swell) extends SwellsService[IO] {
+  class FixedSwellService(swell: Swell) extends SwellStatusProvider[IO] {
     override def get(beachId: domain.BeachId)(implicit FR: Raise[IO, BeachNotFoundError]) = IO.pure(swell)
   }
 }

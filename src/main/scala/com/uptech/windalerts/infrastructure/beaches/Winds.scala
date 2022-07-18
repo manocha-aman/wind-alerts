@@ -6,7 +6,7 @@ import cats.implicits.{toFlatMapOps, toFunctorOps}
 import cats.mtl.Raise
 import com.softwaremill.sttp._
 import com.uptech.windalerts.core.beaches.domain.BeachId
-import com.uptech.windalerts.core.beaches.{WindsService, domain}
+import com.uptech.windalerts.core.beaches.{WindStatusProvider, domain}
 import com.uptech.windalerts.core.{BeachNotFoundError, UnknownError}
 import com.uptech.windalerts.infrastructure.resilience
 import com.uptech.windalerts.logger
@@ -34,7 +34,7 @@ object Wind {
     jsonOf
 }
 
-class WWBackedWindsService[F[_] : FlatMap : Sync](apiKey: String)(implicit backend: SttpBackend[Id, Nothing], F: Async[F], C: ContextShift[F]) extends WindsService[F] {
+class WWBackedWindStatusProvider[F[_] : FlatMap : Sync](apiKey: String)(implicit backend: SttpBackend[Id, Nothing], F: Async[F], C: ContextShift[F]) extends WindStatusProvider[F] {
 
   override def get(beachId: BeachId)(implicit FR: Raise[F, BeachNotFoundError]): F[domain.Wind] = {
 

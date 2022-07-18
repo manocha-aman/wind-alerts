@@ -6,7 +6,7 @@ import cats.implicits.toFlatMapOps
 import cats.mtl.Raise
 import com.softwaremill.sttp._
 import com.uptech.windalerts.core.beaches.domain.{BeachId, TideHeight}
-import com.uptech.windalerts.core.beaches.{TidesService, domain}
+import com.uptech.windalerts.core.beaches.{TidesStatusProvider, domain}
 import com.uptech.windalerts.core.{BeachNotFoundError, UnknownError}
 import com.uptech.windalerts.infrastructure.beaches.Tides.Datum
 import com.uptech.windalerts.infrastructure.beaches.Tides.TideDecoders.tideDecoder
@@ -23,8 +23,8 @@ import java.time.{ZoneId, ZonedDateTime}
 import scala.concurrent.Future
 
 
-class WWBackedTidesService[F[_] : Sync](apiKey: String, beachesConfig: Map[Long, com.uptech.windalerts.config.beaches.Beach])(implicit backend: SttpBackend[Id, Nothing], F: Async[F], C: ContextShift[F])
-  extends TidesService[F] {
+class WWBackedTidesStatusProvider[F[_] : Sync](apiKey: String, beachesConfig: Map[Long, com.uptech.windalerts.config.beaches.Beach])(implicit backend: SttpBackend[Id, Nothing], F: Async[F], C: ContextShift[F])
+  extends TidesStatusProvider[F] {
   val startDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
   val timeZoneForRegion = Map("TAS" -> "Australia/Tasmania",

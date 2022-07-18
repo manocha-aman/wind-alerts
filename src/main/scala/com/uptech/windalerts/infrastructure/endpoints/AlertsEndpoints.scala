@@ -8,29 +8,28 @@ import cats.mtl.implicits.toHandleOps
 import com.uptech.windalerts.core.alerts.{AlertRequest, AlertsService}
 import com.uptech.windalerts.core.types._
 import com.uptech.windalerts.core.user.UserIdMetadata
-import com.uptech.windalerts.core.{AlertNotFoundError, OperationNotAllowed}
+import com.uptech.windalerts.core.{AlertNotFoundError, Infrastructure, OperationNotAllowed}
 import com.uptech.windalerts.infrastructure.endpoints.codecs._
 import com.uptech.windalerts.infrastructure.endpoints.errors.mapError
 import fs2.Stream
-import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s.dsl.Http4sDsl
 import org.http4s.{AuthedRoutes, Response, Status}
 
 
-class AlertsEndpoints[F[_] : Effect](alertService: AlertsService[F])(implicit FR: Handle[F, Throwable]) extends Http4sDsl[F] {
+class AlertsEndpoints[F[_] : Effect](implicit infrastructure:Infrastructure[F], FR: Handle[F, Throwable]) extends Http4sDsl[F] {
   def allUsersService(): AuthedRoutes[UserIdMetadata, F] =
     AuthedRoutes {
 
       case _@GET -> Root as user => {
         OptionT.liftF(
           for {
-            response <- alertService.getAllForUser(user.userId.id).map(alerts => AlertsDTO(alerts))
+            response <- AlertsService.getAllForUser(user.userId.id).map(alerts => AlertsDTO(alerts))
             resp <- Ok(response)
           } yield resp)
       }
 
       case _@DELETE -> Root / alertId as user => {
-        OptionT.liftF(alertService.delete(user.userId.id, alertId)
+        OptionT.liftF(AlertsService.delete(user.userId.id, alertId)
           .flatMap(_ => NoContent())
           .handle[Throwable]({
             case _@AlertNotFoundError(_) =>
@@ -41,7 +40,7 @@ class AlertsEndpoints[F[_] : Effect](alertService: AlertsService[F])(implicit FR
       case authReq@PUT -> Root / alertId as user => {
         OptionT.liftF(authReq.req.decode[AlertRequest] {
           request =>
-            alertService.update(alertId, user.userId, user.userType, request)
+            AlertsService.update(alertId, user.userId, user.userType, request)
               .flatMap(Ok(_))
               .handle[Throwable]({
                 case _@AlertNotFoundError(msg) =>
@@ -55,7 +54,7 @@ class AlertsEndpoints[F[_] : Effect](alertService: AlertsService[F])(implicit FR
         OptionT.liftF(authReq.req.decode[AlertRequest] {
           request =>
             (for {
-              response <- alertService.createAlert(user.userId, user.userType, request)
+              response <- AlertsService.createAlert(user.userId, user.userType, request)
             } yield response).flatMap(
               Created(_)
             ).handle[Throwable](mapError(_))
