@@ -179,7 +179,7 @@
         <dependency>
             <groupId>com.pauldijou</groupId>
             <artifactId>jwt-core_2.13</artifactId>
-            <version>5.0.0</version>
+            <version>9.1.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
