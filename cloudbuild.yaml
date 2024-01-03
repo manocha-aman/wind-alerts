@@ -34,3 +34,6 @@ steps:
     timeout: 900s
   - name: 'gcr.io/cloud-builders/gcloud'
     args: [ 'run', 'services', 'update-traffic', 'wind-alerts-email', '--to-latest', '--region', 'asia-northeast1', ]
+
+  options:
+   logging: 'NONE'
