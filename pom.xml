@@ -17,7 +17,7 @@
         <cats.version>2.7.0</cats.version>
         <circe.version>0.14.1</circe.version>
         <circeGeneric.version>0.14.1</circeGeneric.version>
-        <circeGenericExtras.version>0.14.1</circeGenericExtras.version>
+        <circeGenericExtras.version>0.14.4</circeGenericExtras.version>
         <circeConfig.version>0.8.0</circeConfig.version>
 
     </properties>
