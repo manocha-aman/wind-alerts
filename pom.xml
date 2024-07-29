@@ -190,7 +190,7 @@
         <dependency>
             <groupId>dev.profunktor</groupId>
             <artifactId>http4s-jwt-auth_2.13</artifactId>
-            <version>1.0.0</version>
+            <version>1.2.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
