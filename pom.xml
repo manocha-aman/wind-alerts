@@ -18,7 +18,7 @@
         <circe.version>0.14.1</circe.version>
         <circeGeneric.version>0.14.1</circeGeneric.version>
         <circeGenericExtras.version>0.14.1</circeGenericExtras.version>
-        <circeConfig.version>0.8.0</circeConfig.version>
+        <circeConfig.version>0.10.1</circeConfig.version>
 
     </properties>
     <dependencies>
