@@ -14,7 +14,7 @@
         <spec2.version>4.2.0</spec2.version>
         <envProjectId>wind-alerts-staging</envProjectId>
         <http4s.version>0.22.1</http4s.version>
-        <cats.version>2.7.0</cats.version>
+        <cats.version>2.12.0</cats.version>
         <circe.version>0.14.1</circe.version>
         <circeGeneric.version>0.14.1</circeGeneric.version>
         <circeGenericExtras.version>0.14.1</circeGenericExtras.version>
